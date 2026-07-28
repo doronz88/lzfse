@@ -1,4 +1,4 @@
-name: Build wheels for Linux/macOS/Windows, build sdist, and publish to PyPI
+name: Build wheels for Linux/macOS/Windows and build sdist
 
 on:
   workflow_dispatch:
@@ -54,20 +54,3 @@ jobs:
             name: sdist
             path: dist/*.tar.gz
 
-  pypi-publish:
-    name: Publish release to PyPI
-    needs: [build_wheels, build_sdist]
-    runs-on: ubuntu-latest
-    environment:
-      name: PyPI
-      url: https://pypi.org/p/lzfse
-    permissions:
-      id-token: write
-
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: dist
-          merge-multiple: true
-
-      - uses: pypa/gh-action-pypi-publish@release/v1
